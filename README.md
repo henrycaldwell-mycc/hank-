@@ -1,75 +1,112 @@
-# 🐧 The "It Works on My Machine" Infrastructure Matrix
+# ☁️ Cloud & Network Engineering Portfolio
 
-Welcome to the digital equivalent of holding together a Boeing 747 with zip ties, duct tape, and pure unadulterated hope. This repository contains the configuration files, automation scripts, and existential dread required to spin up an over-engineered virtualized homelab. 
+Welcome to my professional engineering repository. This project serves as a comprehensive showcase of my technical capabilities across **Cloud Architecture**, **Advanced Networking**, and **Enterprise Security**. 
 
-If you love the smell of burning RAM and the sweet sound of `dmesg --level=err` in the morning, you are in the right place.
-
----
-
-## 🛑 Prerequisites (Or: Before You Destroy Your Host OS)
-
-Before attempting to spin anything up, ensure you possess the following:
-* **A Host Machine:** Preferably one with enough fans to sound like a commercial jet taking off.
-* **RAM:** At least 32GB. If you have 8GB, please close this tab and go download more RAM.
-* **Patience:** Enough to survive a broken kernel update at 2:00 AM.
-* **Coffee:** High grade. Essential for staring at non-descript systemd error codes.
+The infrastructure configurations, automation scripts, and deployment blueprints housed here directly align with enterprise best practices validated by my professional certifications: **Microsoft Certified: Azure Solutions Architect Expert**, **CompTIA Network+**, and **CompTIA Security+**.
 
 ---
 
-## 🏗️ Supported Hypervisors (Pick Your Poison)
+## 📜 Professional Certifications
 
-| Hypervisor | Pros | Cons | Ideal For |
-| :--- | :--- | :--- | :--- |
-| **Proxmox VE** | Beautiful web UI, Debian-based, feels professional. | You will spend 4 hours fixing a subscription nag banner. | Hoarding ISOs you will never install. |
-| **KVM / QEMU** | Blazing fast, bare-metal performance, elite Linux street cred. | Configured entirely via XML files that look like ancient curses. | People who hate graphical user interfaces and happiness. |
-| **VirtualBox** | Easy to click around, works on everything. | Slow enough to let you contemplate your life choices. | Testing a distro for exactly 12 minutes before deleting it. |
+* **Microsoft Certified: Azure Solutions Architect Expert** — Advanced expertise in designing cloud-bearing solutions, governance, data platforms, and business continuity.
+* **CompTIA Network+** — Solid foundation in enterprise routing, switching, subnetting, network architecture, and performance optimization.
+* **CompTIA Security+** — Core knowledge in threat management, cryptography, identity and access management (IAM), and risk mitigation.
 
 ---
 
-## 🚀 Quick Start: Spinning Up The Chaos
+## 🛠️ Core Technical Competencies
 
-We use a mix of Vagrant and Terraform because doing things manually is an admission of defeat. 
+### 1. Cloud Architecture (Azure)
+* **Infrastructure as Code (IaC):** Developing modular deployments using Bicep and Terraform.
+* **Hybrid Connectivity:** Implementing Azure ExpressRoute, Site-to-Site VPNs, and Virtual WAN solutions.
+* **Identity & Governance:** Configuring Microsoft Entra ID (formerly Azure AD), RBAC policies, and Azure Blueprints.
 
-### 1. Clone the Madness
-```bash
-git clone https://github.com
-cd linux-vm-chaos
+### 2. Enterprise Networking (Net+)
+* **VNet Architecture:** Designing hub-and-spoke network topologies, peering, and User Defined Routes (UDRs).
+* **Traffic Management:** Implementing Azure Application Gateways, Layer 4/7 Load Balancers, and Front Door global routing.
+* **Network Analysis:** Deep-packet inspection and diagnostics using Azure Network Watcher and Wireshark.
+
+### 3. Security Engineering (Sec+)
+* **Perimeter Defense:** Deploying Azure Firewall Premium, Web Application Firewalls (WAF), and Network Security Groups (NSGs).
+* **Zero Trust Implementation:** Implementing Conditional Access policies and Just-In-Time (JIT) VM access.
+* **Monitoring & SIEM:** Designing log aggregation patterns utilizing Azure Monitor logs and Microsoft Sentinel.
+
+---
+
+## 🏗️ Architecture Blueprint: Secure Hub-and-Spoke
+
+The primary lab deployment inside this repository builds out a secure, enterprise-grade cloud landing zone.
+
+```text
+                       [ Internet ]
+                            │
+                            ▼
+               ┌─────────────────────────┐
+               │ Azure Front Door / WAF  │
+               └────────────┬────────────┘
+                            │
+                            ▼
+              ┌───────────────────────────┐
+              │      Hub VNet (DMZ)       │
+              │  - Azure Firewall Premium │
+              │  - Bastion Host / JIT     │
+              └───────┬───────────┬───────┘
+                      │           │
+            VNet      │           │      VNet
+           Peering    │           │     Peering
+                      ▼           ▼
+         ┌───────────────┐     ┌───────────────┐
+         │ Spoke 1: Prod │     │ Spoke 2: Data │
+         │  - App Service│     │  - SQL Private│
+         │  - Private EP │     │    Endpoints  │
+         └───────────────┘     └───────────────┘
 ```
 
-### 2. Summon the Virtual Demons
-To spin up the default cluster (3 Ubuntu nodes, 1 Arch node that will constantly remind the others it's running Arch):
-```bash
-vagrant up
+---
+
+## 🚀 Repository Structure
+
+```text
+├── .github/workflows/      # CI/CD pipelines for automated infrastructure linting
+├── terraform/              # Terraform modules for Hub-and-Spoke network deployment
+│   ├── modules/            # Reusable network, security, and compute modules
+│   ├── main.tf             # Core infrastructure orchestration
+│   └── variables.tf        # Environment configurations
+├── policies/               # Azure Policy definitions (JSON) for Security+ compliance
+└── scripts/                # PowerShell and Azure CLI automation workflows
 ```
-*Note: If your computer starts smelling like ozone, this is completely normal. Do not panic unless you see actual flames.*
-
-### 3. SSH Into the Void
-```bash
-vagrant ssh node-01
-```
 
 ---
 
-## 🛠️ Essential Troubleshooting Commandments
+## ⚡ Deployment & Verification
 
-When (not if) a VM refuses to boot, please consult the sacred text below:
+### Prerequisites
+* Azure CLI configured with an active subscription.
+* Terraform CLI (v1.5.0+).
 
-* **Commandment I:** Thou shalt check `htop`. If all CPU cores are glowing red at 100%, thou hast accidentally created an infinite bash loop. Again.
-* **Commandment II:** If the network is down, it is *always* DNS. Even when it logically cannot be DNS, it is DNS.
-* **Commandment III:** Do not run `rm -rf /` inside the VM unless you are 100% sure you aren't actually SSH'd into your physical laptop. (We've all been there. It's a rite of passage).
-* **Commandment IV:** If a VM hangs indefinitely, apply the IT Crowd methodology: `virsh destroy <vm-name>` and start over. Nuke it from orbit.
+### Step-by-Step Initialization
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com
+   cd azure-net-security-portfolio/terraform
+   ```
+2. **Initialize and validate configurations:**
+   ```bash
+   terraform init
+   terraform validate
+   ```
+3. **Deploy the infrastructure:**
+   ```bash
+   terraform plan -out=deploy.tfplan
+   terraform apply deploy.tfplan
+   ```
 
 ---
 
-## 🤝 Contributing
+## 🤝 Contact & Professional Network
 
-Found a bug? Outstanding. Please open an Issue with:
-1. The exact error message you received.
-2. How many times you cried before opening the issue.
-3. A copy of your `/etc/network/interfaces` so we can collectively judge your subnetting skills.
+If you are interested in discussing cloud architecture, networking strategies, or security implementations, feel free to connect with me.
 
----
-
-## 📜 License
-
-This project is licensed under the **"Works for Me" License** — meaning if it breaks your hardware, melts your motherboard, or causes your cat to look at you with deep disappointment, you get to keep both pieces.
+* **LinkedIn:** [Your Professional Profile](https://linkedin.com)
+* **Portfolio Website:** [yourdomain.com](https://yourdomain.com)
+* **Professional Email:** [your.email@domain.com](mailto:your.email@domain.com)
